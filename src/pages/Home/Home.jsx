@@ -2,9 +2,45 @@
 import { FiUserPlus } from "react-icons/fi";
 import { Link, useLoaderData } from "react-router-dom";
 import User from "./User/User";
+import Swal from "sweetalert2";
+import { useState } from "react";
 
 const Home = () => {
-  const users = useLoaderData();
+  const loadedUsers = useLoaderData();
+  const [users, setUsers] = useState(loadedUsers);
+
+  const deleteUser = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:3000/users/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.deletedCount > 0) {
+              const remainingUsers = loadedUsers.filter(
+                (user) => user._id !== id
+              );
+              setUsers(remainingUsers);
+
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success",
+              });
+            }
+          });
+      }
+    });
+  };
 
   return (
     <div>
@@ -31,7 +67,12 @@ const Home = () => {
             </thead>
             <tbody>
               {users.map((user, idx) => (
-                <User key={user._id} user={user} id={idx}></User>
+                <User
+                  key={user._id}
+                  user={user}
+                  id={idx}
+                  deleteUser={deleteUser}
+                ></User>
               ))}
             </tbody>
           </table>
