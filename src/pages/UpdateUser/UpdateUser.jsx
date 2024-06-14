@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { AiOutlineBackward } from "react-icons/ai";
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, useLoaderData, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UpdateUser = () => {
   const user = useLoaderData();
   const {
+    _id,
     name,
     email,
     selectedGender: sGender,
@@ -12,6 +14,7 @@ const UpdateUser = () => {
   } = user;
   const [selectedGender, setSelectedGender] = useState(sGender);
   const [selectedStatus, setSelectedStatus] = useState(sStatus);
+  const navigate = useNavigate();
 
   const handleUpdateUser = (e) => {
     e.preventDefault();
@@ -26,25 +29,27 @@ const UpdateUser = () => {
       selectedStatus,
     };
 
-    //   fetch("http://localhost:3000/users", {
-    //     method: "POST",
-    //     headers: {
-    //       "content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(newUser),
-    //   })
-    //     .then((res) => res.json())
-    //     .then((data) => {
-    //       if (data.insertedId) {
-    //         Swal.fire({
-    //           title: "Success!",
-    //           text: "User added successfully!",
-    //           icon: "success",
-    //           confirmButtonText: "Close",
-    //         });
-    //         form.reset();
-    //       }
-    //     });
+    fetch(`http://localhost:3000/users/${_id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.modifiedCount > 0) {
+          Swal.fire({
+            title: "Success!",
+            text: "User Updated successfully!",
+            icon: "success",
+            confirmButtonText: "Close",
+          });
+
+          navigate("/");
+        }
+      });
   };
 
   return (
