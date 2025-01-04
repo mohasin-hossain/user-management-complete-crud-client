@@ -20,7 +20,7 @@ const AddUser = () => {
       selectedStatus,
     };
 
-    fetch("http://localhost:3000/users", {
+    fetch("https://user-management-complete-crud-se-production.up.railway.app/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",

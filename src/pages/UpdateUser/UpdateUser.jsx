@@ -29,7 +29,7 @@ const UpdateUser = () => {
       selectedStatus,
     };
 
-    fetch(`http://localhost:3000/users/${_id}`, {
+    fetch(`https://user-management-complete-crud-se-production.up.railway.app/users/${_id}`, {
       method: "PUT",
       headers: {
         "content-type": "application/json",

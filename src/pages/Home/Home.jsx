@@ -1,9 +1,9 @@
 // import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FiUserPlus } from "react-icons/fi";
 import { Link, useLoaderData } from "react-router-dom";
-import User from "./User/User";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import User from "./User/User";
 
 const Home = () => {
   const loadedUsers = useLoaderData();
@@ -20,7 +20,7 @@ const Home = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/users/${id}`, {
+        fetch(`https://user-management-complete-crud-se-production.up.railway.app/users/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

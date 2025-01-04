@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import Root from "../pages/layout/Root";
-import Home from "../pages/Home/Home";
 import AddUser from "../pages/AddUser/AddUser";
+import Home from "../pages/Home/Home";
+import Root from "../pages/layout/Root";
 import UpdateUser from "../pages/UpdateUser/UpdateUser";
 
 const routes = createBrowserRouter([
@@ -12,7 +12,7 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
-        loader: () => fetch("http://localhost:3000/users"),
+        loader: () => fetch("https://user-management-complete-crud-se-production.up.railway.app/users"),
       },
       {
         path: "/addUser",
@@ -21,7 +21,7 @@ const routes = createBrowserRouter([
       {
         path: "/updateUser/:id",
         element: <UpdateUser></UpdateUser>,
-        loader: ({ params }) => fetch(`http://localhost:3000/users/${params.id}`),
+        loader: ({ params }) => fetch(`https://user-management-complete-crud-se-production.up.railway.app/users/${params.id}`),
       },
     ],
   },
